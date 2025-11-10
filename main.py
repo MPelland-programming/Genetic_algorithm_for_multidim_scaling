@@ -81,7 +81,6 @@ def calc_error(dissim,distance):
 
   return error
 
-
 def evaluate_ind(diss, ind_mat):
   """
   Evaluate individuals.
@@ -102,6 +101,22 @@ def evaluate_ind(diss, ind_mat):
     cc += 1
 
   return error
+
+def selection(qual_idx,n_parent,n_good):
+  """
+  inputs
+    qual_idx : vector of indices of solution sorted in worsening order.
+    n_parent: integer specifying the number of parents to take
+    n_good: integer specifying the number of good parents among the parents.
+  outputs: list of indices for the parents to pass to the crossover step
+            in random order.
+  """
+  le = qual_idx.shape[0]
+  all_list = list(range(n_good)) #############################################fix this with a loop?
+  bad_list = list(range(n_good,le))
+  np.random.shuffle(bad_list)
+
+  return all_list[0:n_good] + bad_list[0:n_parent-n_good]
 
 # Main algorithm
 diss_mat = gen_diss_mat(n,rng)#add test flag when creating class
